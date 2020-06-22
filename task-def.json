@@ -1,0 +1,34 @@
+{
+    "family": "visits-app",
+    "executionRoleArn": "arn:aws:iam::389813492049:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+        {
+            "name": "visit-app",
+            "image": "389813492049.dkr.ecr.us-east-1.amazonaws.com/ecs-test:latest",
+            "portMappings": [
+                {
+                    "containerPort": 3000,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true
+        }
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512"
+}
+
+
+"GroupId": "sg-03003dc59e66f606c"
+
+
+
+aws ecs create-service --cluster savage 
+--service-name nodejs-service 
+--task-definition visits-app: 1 --desired-count 1 --network-configuration "awsvpcConfiguration={subnets=[ subnet-279c217d, subnet-7b625e47, 
+    subnet-a3c2b0eb, subnet-ca8392af, subnet-e1991ccd, subnet-fe68e7f2],securityGroups=[sg-03003dc59e66f606c],assignPublicIp=ENABLED}" --launch-type "FARGATE"
